@@ -1,7 +1,7 @@
 import time
 import requests
 from typing import Dict
-from utilities import WEBHOOK_URL, EMOJI_REPLY, EMOJI_END, EMOJI_JOIN, EMOJI_LEAVE
+from utils.constants import WEBHOOK_URL, EMOJI_REPLY, EMOJI_END, EMOJI_JOIN, EMOJI_LEAVE
 
 
 class Builder:

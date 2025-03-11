@@ -2,4 +2,4 @@
 *.env
 players.json
 venv/
-**/*test.py
+**/*test
