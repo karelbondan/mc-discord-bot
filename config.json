@@ -1,5 +1,46 @@
 {
-    "prefix": ".mc.",
+    "mc_version": "1.21.4",
+    "mc_path": "./pygtailtest/nested/inside/other/folder",
+    "prefix": ".mcdev.",
     "channel_name": "minecraft-bot",
-    "channel_id": 1294612546954989591
+    "channel_id": 1296904571112914947,
+    "not_deaths": [
+        "Thread",
+        "Saving",
+        "Stopping",
+        "server operator",
+        "Using",
+        "Debug logging",
+        "Generating",
+        "Loaded",
+        "Hooked",
+        "TreeCuter",
+        "Did not hook",
+        "Linked",
+        "Finished",
+        "Showing new",
+        "Loading",
+        "Preparing",
+        "Reset",
+        "The difficulty",
+        "joined",
+        "left"
+    ],
+    "server_states": [
+        "Starting minecraft server",
+        "Stopping server"
+    ],
+    "ignore_prefixes": [
+        "/w",
+        "/msg",
+        "/tell",
+        "issued server command: /"
+    ],
+    "head_url": "https://minotar.net/helm/{}/32.png",
+    "body_url": "https://minotar.net/armor/body/{}/150.png",
+    "emoji_reply": "<:tree:1297239384864718920>",
+    "emoji_end": "<:tree_end:1297239401751122001>",
+    "emoji_join": "<:join:1297239340082270288>",
+    "emoji_leave": "<:leave:1297239361858830396>",
+    "tab_amount": 5
 }
