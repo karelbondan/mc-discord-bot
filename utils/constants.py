@@ -12,7 +12,6 @@ with open("config.json") as config:
     _CONFIG = json.load(config)
 
 ## configs
-CONF_BODY_URL: str = _CONFIG["body_url"]
 CONF_COLORS = {
     "green": 0x36E066,
     "red": 0xE04536,
@@ -20,21 +19,23 @@ CONF_COLORS = {
     "orange": 0xFF9100,
     "gold": 0xFFDE00,
 }
+CONF_ROOT: str = Path(__file__).parent.parent
+CONF_TOKEN: str = os.getenv("TOKEN")
+CONF_RCON_PASS: str = str(os.getenv("RCON_PASS"))
+CONF_PREFIX: str = _CONFIG["bot_prefix"]
+CONF_MC_PATH: str = _CONFIG["mc_path"]
+CONF_TAB: int = _CONFIG["log_tab_amount"]
+CONF_READ_DLAY: float = _CONFIG["log_read_delay"]
+CONF_HEAD_URL: str = _CONFIG["urL_head"]
+CONF_BODY_URL: str = _CONFIG["url_body"]
 CONF_EMOJI_REPLY: str = _CONFIG["emoji_reply"]
 CONF_EMOJI_END: str = _CONFIG["emoji_end"]
 CONF_EMOJI_JOIN: str = _CONFIG["emoji_join"]
 CONF_EMOJI_LEAVE: str = _CONFIG["emoji_leave"]
-CONF_HEAD_URL: str = _CONFIG["head_url"]
-CONF_MC_PATH: str = _CONFIG["mc_path"]
 CONF_NOT_DEATHS: list[str] = _CONFIG["not_deaths"]
-CONF_IGN_PREFIX: list[str] = _CONFIG["ignore_prefixes"]
-CONF_PLAYERS: str = "players.json"
-CONF_PREFIX: str = _CONFIG["prefix"]
-CONF_RCON_PASS: str = str(os.getenv("RCON_PASS"))
-CONF_ROOT: str = Path(__file__).parent.parent
 CONF_SERVER_STATES: list[str] = _CONFIG["server_states"]
-CONF_TOKEN: str = os.getenv("TOKEN")
-CONF_TAB: int = _CONFIG["tab_amount"]
+CONF_IGN_PREFIX: list[str] = _CONFIG["ignore_prefixes"]
+
 # deprecated
 WEBHOOK_URL_OLD: str = str(os.getenv("WEBHOOK_URL_OLD"))
 WEBHOOK_URL: str = str(os.getenv("WEBHOOK_URL"))

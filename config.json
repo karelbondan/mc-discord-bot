@@ -1,9 +1,17 @@
 {
+    "bot_prefix": ".mc.",
     "mc_version": "1.21.4",
-    "mc_path": "./pygtailtest/nested/inside/other/folder",
-    "prefix": ".mcdev.",
+    "mc_path": "/path/to/mc",
     "channel_name": "minecraft-bot",
-    "channel_id": 1296904571112914947,
+    "channel_id": 12345,
+    "log_tab_amount": 5,
+    "log_read_delay": 0.1,
+    "url_head": "https://minotar.net/helm/{}/32.png",
+    "url_body": "https://minotar.net/armor/body/{}/150.png",
+    "emoji_reply": "<:tree:1297239384864718920>",
+    "emoji_end": "<:tree_end:1297239401751122001>",
+    "emoji_join": "<:join:1297239340082270288>",
+    "emoji_leave": "<:leave:1297239361858830396>",
     "not_deaths": [
         "Thread",
         "Saving",
@@ -35,12 +43,5 @@
         "/msg",
         "/tell",
         "issued server command: /"
-    ],
-    "head_url": "https://minotar.net/helm/{}/32.png",
-    "body_url": "https://minotar.net/armor/body/{}/150.png",
-    "emoji_reply": "<:tree:1297239384864718920>",
-    "emoji_end": "<:tree_end:1297239401751122001>",
-    "emoji_join": "<:join:1297239340082270288>",
-    "emoji_leave": "<:leave:1297239361858830396>",
-    "tab_amount": 5
+    ]
 }
