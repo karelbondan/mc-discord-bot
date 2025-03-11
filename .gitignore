@@ -3,3 +3,5 @@
 players.json
 venv/
 **/*test
+*.egginfo
+build

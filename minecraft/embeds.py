@@ -21,9 +21,9 @@ def embed_player_joined(log: str) -> PlayerState:
         player_uuid = consts.RE_PLYR_UUID_JOIN.findall(log)[0]
 
     player_body_icon = consts.CONF_BODY_URL.format(player_uuid)
-    players_list = json.load(open("{}./players.json".format(consts.CONF_ROOT)))
+    players_list = json.load(open("{}/players.json".format(consts.CONF_ROOT)))
     players_list[player_name] = player_uuid
-    with open("{}./players.json".format(consts.CONF_ROOT), "w") as database:
+    with open("{}/players.json".format(consts.CONF_ROOT), "w") as database:
         json.dump(players_list, database)
 
     methods.log(strings.LOG_PLAYRJOIN.format(player_name))
@@ -35,7 +35,7 @@ def embed_player_leave(log: str) -> PlayerState:
 
     methods.log(strings.LOG_PLAYRLEAV.format(player_name))
 
-    with open("{}./players.json".format(consts.CONF_ROOT), "r") as database:
+    with open("{}/players.json".format(consts.CONF_ROOT), "r") as database:
         players_list = json.load(database)
         player_uuid = players_list[player_name]
         player_body_icon = consts.CONF_BODY_URL.format(player_uuid)
@@ -43,7 +43,7 @@ def embed_player_leave(log: str) -> PlayerState:
 
 
 def embed_player_chat(latest: str, message: str) -> Chat:
-    player_list = open("{}./players.json".format(consts.CONF_ROOT))
+    player_list = open("{}/players.json".format(consts.CONF_ROOT))
     player_list_parsed = json.load(player_list)
     player_name = message[0]
     # finds character sequences with spaces after the sequence ">\s"
@@ -62,7 +62,7 @@ def embed_player_chat_edit(prev: Chat, new: Chat) -> Chat:
 
 
 def embed_player_advancement(log: str, adv: List[str]) -> Advancement:
-    with open("{}./players.json".format(consts.CONF_ROOT)) as database:
+    with open("{}/players.json".format(consts.CONF_ROOT)) as database:
         players_list = json.load(database)
 
         # gets from log -> regex terminates before square brackets -> acv name
@@ -77,7 +77,7 @@ def embed_player_advancement(log: str, adv: List[str]) -> Advancement:
 
 
 def embed_player_death(cause: str) -> Death:
-    with open("{}./players.json".format(consts.CONF_ROOT)) as database:
+    with open("{}/players.json".format(consts.CONF_ROOT)) as database:
         players_list = json.load(database)
         player_name = consts.RE_PLYR_NAME_DEAD.findall(cause)[0]
         player_icon = consts.CONF_HEAD_URL.format(players_list[player_name])
