@@ -16,6 +16,7 @@ from discord.ext import commands
 from classes.chat import Chat
 from typing import List
 from pygtail import Pygtail
+from traceback import format_exc
 
 players_loaded = False
 # previous message properties
@@ -84,7 +85,7 @@ async def mc_to_discord_worker():
                         prev_chat = Chat("", "", "")
                     await asyncio.sleep(consts.CONF_READ_DLAY)
         except Exception as e:
-            methods.log(strings.LOG_BOT_ERROR.format(repr(e)))
+            methods.log(strings.LOG_BOT_ERROR.format(format_exc()))
         await asyncio.sleep(consts.CONF_READ_DLAY)
 
 

@@ -6,6 +6,7 @@ from classes.death import Death
 from classes.player import PlayerState
 from classes.state import ServerState
 from minecraft.embeds import *
+from traceback import format_exc
 import utils.constants as utils
 import utils.methods as methods
 import utils.strings as strings
@@ -68,7 +69,7 @@ def get_embed(log: str, prev_log: str = "", test_log: str = "") -> Tuple[
         # if none of the above statements were satisfied
         return (latest_log, None)
     except Exception as e:
-        methods.log(strings.LOG_BOT_ERROR.format(repr(e)))
+        methods.log(strings.LOG_BOT_ERROR.format(format_exc()))
 
         # return nothing if an error was encountered
         return ("", None)
