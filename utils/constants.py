@@ -35,6 +35,9 @@ CONF_EMOJI_LEAVE: str = _CONFIG["emoji_leave"]
 CONF_NOT_DEATHS: list[str] = _CONFIG["not_deaths"]
 CONF_SERVER_STATES: list[str] = _CONFIG["server_states"]
 CONF_IGN_PREFIX: list[str] = _CONFIG["ignore_prefixes"]
+CONF_CHANNEL_ID: int = _CONFIG["channel_id"]
+CONF_CHANNEL_NM: str = _CONFIG["channel_name"]
+CONF_SERVER_ID: int = _CONFIG["server_id"]
 
 # deprecated
 WEBHOOK_URL_OLD: str = str(os.getenv("WEBHOOK_URL_OLD"))

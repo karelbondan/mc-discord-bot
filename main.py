@@ -11,7 +11,6 @@ import utils.strings as strings
 import minecraft.worker as worker
 import minecraft.rcon as rcon
 import asyncio
-import re
 from discord import Intents, Message, Game
 from discord.ext import commands
 from classes.chat import Chat
@@ -54,7 +53,7 @@ async def mc_to_discord_worker():
                 methods.load_players()
                 players_loaded = True
 
-            channel = bot.get_channel(methods.get_channel_id())
+            channel = bot.get_channel(consts.CONF_CHANNEL_ID)
 
             log_path = "{}/logs/latest.log".format(consts.CONF_MC_PATH)
             logs: List[str] = Pygtail(filename=log_path, save_on_end=True)
@@ -98,7 +97,7 @@ async def on_message(message: Message):
         await message.channel.send(strings.RSP_STEVE)
 
     # if not in the desired channel then do nothing
-    if methods.get_channel_name() not in message.channel.name.lower():
+    if consts.CONF_CHANNEL_NM.lower() not in message.channel.name.lower():
         return
 
     # if last message was sent by the bot then ignore
@@ -113,7 +112,8 @@ async def on_message(message: Message):
     prev_chat = Chat("", "", "")
 
     # send message to mc server
-    rcon.send_to_mc_server(message)
+    if (message.guild.id == consts.CONF_SERVER_ID):
+        rcon.send_to_mc_server(message)
 
 
 @bot.event

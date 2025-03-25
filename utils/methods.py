@@ -38,13 +38,3 @@ def load_players():
 def load_config() -> Dict[str, str]:
     with open("config.json") as config:
         return json.load(config)
-
-
-def get_channel_name() -> str:
-    config = load_config()
-    return config["channel_name"]
-
-
-def get_channel_id() -> int:
-    config = load_config()
-    return config["channel_id"]

@@ -4,6 +4,7 @@
     "mc_path": "/path/to/mc",
     "channel_name": "minecraft-bot",
     "channel_id": 12345,
+    "server_id": 12345,
     "log_tab_amount": 5,
     "log_read_delay": 0.1,
     "url_head": "https://minotar.net/helm/{}/32.png",
