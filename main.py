@@ -11,6 +11,7 @@ import utils.strings as strings
 import minecraft.worker as worker
 import minecraft.rcon as rcon
 import asyncio
+import re
 from discord import Intents, Message, Game
 from discord.ext import commands
 from classes.chat import Chat
@@ -30,16 +31,13 @@ bot = commands.Bot(command_prefix=consts.CONF_PREFIX, intents=Intents.all())
 @bot.command()
 async def hello(ctx: commands.Context):
     message = ctx.message
-    methods.log(
-        strings.LOG_CMD_HELLO.format(message.author, message.guild, message.channel)
-    )
+    methods.log(strings.LOG_CMD_HELLO.format(message.author, message.guild, message.channel))
     await ctx.send(strings.RSP_HELLO)
 
 
 @bot.command()
 async def list(ctx: commands.Context):
-    response = rcon.rcon_list_users()
-    await ctx.send(response)
+    await ctx.send(rcon.rcon_list_users())
 
 
 async def mc_to_discord_worker():
@@ -62,6 +60,7 @@ async def mc_to_discord_worker():
             logs: List[str] = Pygtail(filename=log_path, save_on_end=True)
             if logs:
                 for log in logs:
+                    log = methods.strip_codes_ansiesc(log=log)
                     prev_log, embed = worker.get_embed(prev_log=prev_log, log=log)
 
                     # if no event then do nothing

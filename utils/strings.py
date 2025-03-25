@@ -8,6 +8,9 @@ RE_S_CHAL = r"\[Server\sthread/INFO\]\:\s[^\s]*\shas\scompleted\sthe\schallenge"
 RE_S_GOAL = r"\[Server\sthread/INFO\]\:\s[^\s]*\shas\sreached\sthe\sgoal"
 RE_S_DEATH = r"(?<=\[Server\sthread/INFO\]\:\s)[^\[\:\.]+$"
 RE_S_CHAT = r"(?<=<)\w+(?=>)"
+RE_S_CMD_LIST = r"\[HIDDEN\]"
+RE_S_CMD_CHAT = r"\x1b\[[0-9;]*m"  # removes break char for console
+RE_S_CMD_COLR = r"§[0-9a-fk-or]"  # removes color codes in mc
 RE_S_PLYR_NAME_JOIN = r"(?<=player\s)\w+"
 RE_S_PLYR_UUID_JOIN = r"(?<=is\s)[\w-]+"
 RE_S_PLYR_NAME_DEAD = r"^[^\s]*"
