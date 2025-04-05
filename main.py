@@ -14,6 +14,7 @@ import asyncio
 from discord import Intents, Message, Game
 from discord.ext import commands
 from classes.chat import Chat
+from classes.offline import Offline
 from typing import List
 from pygtail import Pygtail
 from traceback import format_exc
@@ -29,8 +30,8 @@ bot = commands.Bot(command_prefix=consts.CONF_PREFIX, intents=Intents.all())
 
 @bot.command()
 async def hello(ctx: commands.Context):
-    message = ctx.message
-    methods.log(strings.LOG_CMD_HELLO.format(message.author, message.guild, message.channel))
+    msg = ctx.message
+    methods.log(strings.LOG_CMD_HELLO.format(msg.author, msg.guild, msg.channel))
     await ctx.send(strings.RSP_HELLO)
 
 
@@ -112,8 +113,12 @@ async def on_message(message: Message):
     prev_chat = Chat("", "", "")
 
     # send message to mc server
-    if (message.guild.id == consts.CONF_SERVER_ID):
-        rcon.send_to_mc_server(message)
+    if message.guild.id == consts.CONF_SERVER_ID:
+        try:
+            rcon.send_to_mc_server(message)
+        except ConnectionRefusedError:
+            await message.channel.send(embed=Offline().get_embed())
+            methods.log(strings.LOG_SERVER_OFFLN)
 
 
 @bot.event

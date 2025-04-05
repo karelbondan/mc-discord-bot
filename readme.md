@@ -8,7 +8,7 @@ your own.
 ## Tech stacks 
 
 - discord.py 
-- pygtail (to be implemented) 
+- pygtail 
 - minecraft server (spigot in this case)
 - mojang moment 
 
@@ -20,10 +20,18 @@ your own.
 	- Player deaths
 	- Player accomplishing an achievement
 - Sends a message sent on a designated channel on a discord server to the minecraft server.
+- Lets users know when the server is offline
 
 ## Known bug(s)
-Since the current reading algorithm is not optimized yet, sometimes logs get skipped 
-since the minecraft server can dump the logs really fast. Going to try implementing
-a new algorithm using pygtail to address this issue. 
+None. I'm the best. 
+
+## Upcoming feature(s)
+
+- Bedrock player skins would be visible on the embed (currently they default to Steve).
+- Start, restart server through bot command (need to implement check before restarting. Wouldn't want to restart if there are still players on the server).
+
+## `.env` fields
+- TOKEN
+- RCON_PASS
 
 > (c) 2025 Karel Bondan

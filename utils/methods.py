@@ -1,5 +1,6 @@
 from time import strftime
 from typing import Dict
+from random import randint
 import json
 import re
 import utils.methods as methods
@@ -38,3 +39,20 @@ def load_players():
 def load_config() -> Dict[str, str]:
     with open("config.json") as config:
         return json.load(config)
+
+
+def offline_msg() -> str:
+    msgs = [
+        strings.SERVER_OFFLINE_1,
+        strings.SERVER_OFFLINE_2,
+        strings.SERVER_OFFLINE_3,
+        strings.SERVER_OFFLINE_4,
+        strings.SERVER_OFFLINE_5,
+        strings.SERVER_OFFLINE_6,
+        strings.SERVER_OFFLINE_7,
+        strings.SERVER_OFFLINE_8,
+        strings.SERVER_OFFLINE_9,
+        strings.SERVER_OFFLINE_10,
+    ]
+    rand = randint(0, 9)
+    return msgs[rand]
