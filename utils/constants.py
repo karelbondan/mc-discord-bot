@@ -22,6 +22,7 @@ CONF_COLORS = {
 CONF_ROOT: str = Path(__file__).parent.parent
 CONF_TOKEN: str = os.getenv("TOKEN")
 CONF_RCON_PASS: str = str(os.getenv("RCON_PASS"))
+CONF_RCON_PORT: int = _CONFIG["rcon_port"]
 CONF_PREFIX: str = _CONFIG["bot_prefix"]
 CONF_MC_PATH: str = _CONFIG["mc_path"]
 CONF_TAB: int = _CONFIG["log_tab_amount"]
