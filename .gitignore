@@ -1,7 +1,7 @@
 **/__pycache__/
 *.env
 players.json
-venv/
+*venv/
 **/*test
 *.egg-info
 build
