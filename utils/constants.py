@@ -1,48 +1,57 @@
-from dotenv import load_dotenv
-from pathlib import Path
-import json
 import os
 import re
+from pathlib import Path
+
+import yaml
+from dotenv import load_dotenv
+
 import utils.strings as strings
 
 load_dotenv(override=True)
 
 # constants
-with open("config.json") as config:
-    _CONFIG = json.load(config)
+with open("config.yml", "r") as config:
+    CONFIG = yaml.safe_load(config)
+    CONFIG = CONFIG["settings"]
 
 ## configs
-CONF_COLORS = {
+COLORS = {
     "green": 0x36E066,
     "red": 0xE04536,
     "gray": 0xBEBEBE,
     "orange": 0xFF9100,
     "gold": 0xFFDE00,
 }
-CONF_ROOT: str = Path(__file__).parent.parent
-CONF_TOKEN: str = os.getenv("TOKEN")
-CONF_RCON_PASS: str = str(os.getenv("RCON_PASS"))
-CONF_RCON_PORT: int = _CONFIG["rcon_port"]
-CONF_PREFIX: str = _CONFIG["bot_prefix"]
-CONF_MC_PATH: str = _CONFIG["mc_path"]
-CONF_TAB: int = _CONFIG["log_tab_amount"]
-CONF_READ_DLAY: float = _CONFIG["log_read_delay"]
-CONF_HEAD_URL: str = _CONFIG["url_head"]
-CONF_BODY_URL: str = _CONFIG["url_body"]
-CONF_EMOJI_REPLY: str = _CONFIG["emoji_reply"]
-CONF_EMOJI_END: str = _CONFIG["emoji_end"]
-CONF_EMOJI_JOIN: str = _CONFIG["emoji_join"]
-CONF_EMOJI_LEAVE: str = _CONFIG["emoji_leave"]
-CONF_NOT_DEATHS: list[str] = _CONFIG["not_deaths"]
-CONF_SERVER_STATES: list[str] = _CONFIG["server_states"]
-CONF_IGN_PREFIX: list[str] = _CONFIG["ignore_prefixes"]
-CONF_CHANNEL_ID: int = _CONFIG["channel_id"]
-CONF_CHANNEL_NM: str = _CONFIG["channel_name"]
-CONF_SERVER_ID: int = _CONFIG["server_id"]
+ROOT_PATH = Path(__file__).parent.parent
 
-# deprecated
-WEBHOOK_URL_OLD: str = str(os.getenv("WEBHOOK_URL_OLD"))
-WEBHOOK_URL: str = str(os.getenv("WEBHOOK_URL"))
+BOT_TOKEN: str = os.getenv("TOKEN") or ""
+BOT_PREFIX = CONFIG["bot"]["prefix"]
+
+MC_HOST = os.getenv("MC_HOST") or "0.0.0.0"
+MC_PORT = int(os.getenv("MC_PORT") or 25565)
+MC_PATH = CONFIG["minecraft"]["server_path"]
+
+RCON_PASS = os.getenv("RCON_PASS") or ""
+RCON_PORT = int(os.getenv("RCON_PORT") or 25575)
+
+TAB_AMOUNT: int = CONFIG["logging"]["tab_amount"]
+LOG_READ_DELAY: float = CONFIG["logging"]["read_delay"]
+
+HEAD_URL: str = CONFIG["discord"]["embed"]["url_head"]
+BODY_URL: str = CONFIG["discord"]["embed"]["url_body"]
+
+EMOJI_REPLY: str = CONFIG["discord"]["embed"]["emoji_reply"]
+EMOJI_END: str = CONFIG["discord"]["embed"]["emoji_end"]
+EMOJI_JOIN: str = CONFIG["discord"]["embed"]["emoji_join"]
+EMOJI_LEAVE: str = CONFIG["discord"]["embed"]["emoji_leave"]
+
+NOT_DEATHS: list[str] = CONFIG["miscellaneous"]["not_deaths"]
+SERVER_STATES: list[str] = CONFIG["miscellaneous"]["server_states"]
+IGNORE_PREFIX: list[str] = CONFIG["miscellaneous"]["ignore_prefixes"]
+
+CHANNEL_ID: int = CONFIG["discord"]["channel_id"]
+CHANNEL_NAME: str = CONFIG["discord"]["channel_name"]
+SERVER_ID: int = CONFIG["discord"]["server_id"]
 
 ## regexes
 RE_ADVANCEMENT: re.Pattern = re.compile(strings.RE_S_ADV)
@@ -60,3 +69,4 @@ RE_PLYR_NAME_GYS_JOIN: re.Pattern = re.compile(strings.RE_S_PLYR_NAME_GYSR_JOIN)
 RE_PLYR_UUID_GYS_JOIN: re.Pattern = re.compile(strings.RE_S_PLYR_UUID_GYSR_JOIN)
 RE_PLYR_LEAVE: re.Pattern = re.compile(strings.RE_S_PLYR_LEAVE)
 RE_PLYR_MESSG: re.Pattern = re.compile(strings.RE_S_PLYR_MESSG)
+RE_TPS_THREAD_NO: re.Pattern = re.compile(strings.RE_S_TPS_THREAD_NO)

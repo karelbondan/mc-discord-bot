@@ -9,7 +9,7 @@ import utils.constants as const
 
 
 def log(log: str):
-    print(f"{strftime('%Y-%m-%d %H:%M:%S')} INFO{' ' * const.CONF_TAB}{log}")
+    print(f"{strftime('%Y-%m-%d %H:%M:%S')} INFO{' ' * const.TAB_AMOUNT}{log}")
 
 
 def strip_codes_ansiesc(log: str) -> str:
@@ -22,9 +22,9 @@ def strip_codes_color(resp: str) -> str:
 
 def load_players():
     methods.log(strings.LOG_GETPLAYER)
-    with open("{}/usercache.json".format(const.CONF_MC_PATH)) as server_players:
-        methods.log(const.CONF_ROOT)
-        with open("{}/players.json".format(const.CONF_ROOT), "w") as database:
+    with open("{}/usercache.json".format(const.MC_PATH)) as server_players:
+        methods.log(const.ROOT_PATH)
+        with open("{}/players.json".format(const.ROOT_PATH), "w") as database:
             parsed = json.load(server_players)
             players_list = {}
 

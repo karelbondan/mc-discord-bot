@@ -11,8 +11,8 @@ class Chat(MCEmbedBuilderBase):
             name=strings.PLAYER_CHAT.format(self.name, self.get_time()),
             icon_url=self.icon_url,
         )
-        self.embed.description = utils.CONF_EMOJI_END + msg
-        self.embed.color = utils.CONF_COLORS["gray"]
+        self.embed.description = utils.EMOJI_END + msg
+        self.embed.color = utils.COLORS["gray"]
 
     def add_description(self, msg: str) -> None:
         self.description.append(msg)
@@ -20,9 +20,9 @@ class Chat(MCEmbedBuilderBase):
         for desc in self.description:
             formatted = desc.replace("\n", "")
             if desc != self.description[-1]:
-                new_desc += utils.CONF_EMOJI_REPLY + formatted + "\n"
+                new_desc += utils.EMOJI_REPLY + formatted + "\n"
             else:
-                new_desc += utils.CONF_EMOJI_END + formatted
+                new_desc += utils.EMOJI_END + formatted
         self.embed.description = new_desc
 
     def get_description(self) -> list:

@@ -1,31 +1,34 @@
 """
-Copyright 2024 Karel Bondan
+Copyright 2024-present Karel Bondan
 This bot was speficially made for one discord server.
 No decision is currently made to expand this to be able to
 handle multiple discord servers.
 """
 
+import asyncio
+from traceback import format_exc
+
+from discord import Game, Intents, Message
+from discord.channel import TextChannel
+from discord.ext import commands
+from mcstatus import JavaServer
+from pygtail import Pygtail
+
+import minecraft.rcon as rcon
+import minecraft.worker as worker
 import utils.constants as consts
 import utils.methods as methods
 import utils.strings as strings
-import minecraft.worker as worker
-import minecraft.rcon as rcon
-import asyncio
-from discord import Intents, Message, Game
-from discord.ext import commands
 from classes.chat import Chat
 from classes.offline import Offline
-from typing import List
-from pygtail import Pygtail
-from traceback import format_exc
 
 players_loaded = False
 # previous message properties
 prev_log: str = ""
 prev_chat: Chat = Chat("", "", "")
-prev_sent: Message = None
+prev_sent: Message | None = None
 
-bot = commands.Bot(command_prefix=consts.CONF_PREFIX, intents=Intents.all())
+bot = commands.Bot(command_prefix=consts.BOT_PREFIX, intents=Intents.all())
 
 
 @bot.command()
@@ -38,6 +41,21 @@ async def hello(ctx: commands.Context):
 @bot.command()
 async def list(ctx: commands.Context):
     await ctx.send(rcon.rcon_list_users())
+
+
+@bot.command()
+async def ping(ctx: commands.Context):
+    def __ping():
+        server = JavaServer.lookup(f"{consts.MC_HOST}:{consts.MC_PORT}")
+        return server.status().latency
+
+    result = await bot.loop.run_in_executor(None, __ping)
+    await ctx.send(str(round(result, 2)))
+
+
+@bot.command()
+async def tps(ctx: commands.Context):
+    await ctx.send(f"```{rcon.send_command('tps')}```")
 
 
 async def mc_to_discord_worker():
@@ -54,42 +72,52 @@ async def mc_to_discord_worker():
                 methods.load_players()
                 players_loaded = True
 
-            channel = bot.get_channel(consts.CONF_CHANNEL_ID)
+            channel = bot.get_channel(consts.CHANNEL_ID)
+            if not channel or not isinstance(channel, TextChannel):
+                raise RuntimeError(strings.LOG_CHANNEL_NOT_FOUND)
 
-            log_path = "{}/logs/latest.log".format(consts.CONF_MC_PATH)
-            logs: List[str] = Pygtail(filename=log_path, save_on_end=True)
-            if logs:
-                for log in logs:
-                    log = methods.strip_codes_ansiesc(log=log)
-                    prev_log, embed = worker.get_embed(prev_log=prev_log, log=log)
+            log_path = "{}/logs/latest.log".format(consts.MC_PATH)
+            logs = Pygtail(filename=log_path, save_on_end=True)
+            if not logs:
+                continue
+            for log in logs:
+                log = methods.strip_codes_ansiesc(log=str(log))
+                prev_log, embed = worker.get_embed(prev_log=prev_log, log=log)
 
-                    # if no event then do nothing
-                    if embed == None:
-                        continue
+                # if no event then do nothing
+                if embed is None:
+                    continue
 
-                    # edit message if the embed type is Chat and if the player name is the same as the previous one
-                    if type(embed) == Chat and embed.get_name() == prev_chat.get_name():
-                        embed = worker.embed_player_chat_edit(prev_chat, embed)
-                        await prev_sent.edit(embed=embed.get_embed())
-                    # else just send a regular embed to the discord server
-                    else:
-                        prev_sent = await channel.send(embed=embed.get_embed())
+                # edit message if the embed type is Chat and if the player name is the same as the previous one
+                if (
+                    isinstance(embed, Chat)
+                    and embed.get_name() == prev_chat.get_name()
+                    and prev_sent
+                ):
+                    embed = worker.embed_player_chat_edit(prev_chat, embed)
+                    await prev_sent.edit(embed=embed.get_embed())
+                # else just send a regular embed to the discord server
+                else:
+                    prev_sent = await channel.send(embed=embed.get_embed())
 
-                    # if the current type is Chat then set previous chat to be the embed
-                    if type(embed) == Chat:
-                        prev_chat = embed
-                    # else reset previous chat to prevent the current message being edited when:
-                    # player A chats > other event happens > player A chats again
-                    else:
-                        prev_chat = Chat("", "", "")
-                    await asyncio.sleep(consts.CONF_READ_DLAY)
-        except Exception as e:
+                # if the current type is Chat then set previous chat to be the embed
+                if isinstance(embed, Chat):
+                    prev_chat = embed
+                # else reset previous chat to prevent the current message being edited when:
+                # player A chats > other event happens > player A chats again
+                else:
+                    prev_chat = Chat("", "", "")
+                await asyncio.sleep(consts.LOG_READ_DELAY)
+        except Exception:
             methods.log(strings.LOG_BOT_ERROR.format(format_exc()))
-        await asyncio.sleep(consts.CONF_READ_DLAY)
+        await asyncio.sleep(consts.LOG_READ_DELAY)
 
 
 @bot.event
 async def on_message(message: Message):
+    if not isinstance(message.channel, TextChannel):
+        return
+
     # process message to allow commands to be executed
     await bot.process_commands(message)
 
@@ -98,7 +126,7 @@ async def on_message(message: Message):
         await message.channel.send(strings.RSP_STEVE)
 
     # if not in the desired channel then do nothing
-    if consts.CONF_CHANNEL_NM.lower() not in message.channel.name.lower():
+    if consts.CHANNEL_NAME.lower() not in message.channel.name.lower():
         return
 
     # if last message was sent by the bot then ignore
@@ -113,7 +141,8 @@ async def on_message(message: Message):
     prev_chat = Chat("", "", "")
 
     # send message to mc server
-    if message.guild.id == consts.CONF_SERVER_ID:
+    assert message.guild
+    if message.guild.id == consts.SERVER_ID:
         try:
             rcon.send_to_mc_server(message)
         except ConnectionRefusedError:
@@ -128,4 +157,4 @@ async def on_ready():
     bot.loop.create_task(mc_to_discord_worker())
 
 
-bot.run(token=consts.CONF_TOKEN)
+bot.run(token=consts.BOT_TOKEN)

@@ -1,0 +1,66 @@
+# Minecraft x Discord Bot settings
+settings:
+  # Bot settings
+  bot:
+    prefix: mc.
+
+  # Minecraft settings
+  minecraft:
+    # The directory on where server.jar is located
+    server_path: "/path/to/mc-server"
+
+  # Discord settings
+  discord:
+    server_id: 12345
+    channel_id: 67890
+    # The channel name of the specified ID above. Not case-sensitive
+    channel_name: mc-world-bot
+    # You might not want to change these unless you know what you're doing
+    embed:
+      # Player skins
+      url_head: "https://minotar.net/helm/{}/32.png"
+      url_body: "https://minotar.net/armor/body/{}/150.png"
+      # For nice-looking embeds
+      emoji_reply: "<:tree:1297239384864718920>"
+      emoji_end: "<:tree_end:1297239401751122001>"
+      emoji_join: "<:join:1297239340082270288>"
+      emoji_leave: "<:leave:1297239361858830396>"
+
+  logging:
+    # Tab amount to be displayed in stdout between the log type and the log content
+    tab_amount: 5
+    # Throttling for pygtail to read from latest.log 
+    read_delay: 0.1
+
+  # These are necessary for the bot to run properly. Unless you know what you're doing or 
+  # you want to experiment, you should not change these. 
+  miscellaneous:
+    not_deaths:
+      - Thread
+      - Saving
+      - Stopping
+      - server operator
+      - Using
+      - Debug logging
+      - Generating
+      - Loaded
+      - Hooked
+      - TreeCuter
+      - Did not hook
+      - Linked
+      - Finished
+      - Showing new
+      - Loading
+      - Preparing
+      - Reset
+      - The difficulty
+      - joined
+      - left
+    server_states:
+      - Starting minecraft server
+      - Stopping server
+    ignore_prefixes:
+      - "/w"
+      - "/msg"
+      - "/tell"
+      - "issued server command: /"

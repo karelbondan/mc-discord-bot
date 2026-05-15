@@ -11,13 +11,13 @@ class PlayerState(MCEmbedBuilderBase):
 
     def format_embed(self, state: str):
         if state == "JOIN":
-            title = f"{self.name} {utils.CONF_EMOJI_JOIN}"
-            description = strings.PLAYER_JOIN.format(utils.CONF_EMOJI_END)
-            color = utils.CONF_COLORS["green"]
+            title = f"{self.name} {utils.EMOJI_JOIN}"
+            description = strings.PLAYER_JOIN.format(utils.EMOJI_END)
+            color = utils.COLORS["green"]
         else:
-            title = f"{self.name} {utils.CONF_EMOJI_LEAVE}"
-            description = strings.PLAYER_LEAV.format(utils.CONF_EMOJI_END)
-            color = utils.CONF_COLORS["red"]
+            title = f"{self.name} {utils.EMOJI_LEAVE}"
+            description = strings.PLAYER_LEAV.format(utils.EMOJI_END)
+            color = utils.COLORS["red"]
         self.embed.title = title
         self.embed.description = description
         self.embed.color = color

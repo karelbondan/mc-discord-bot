@@ -27,7 +27,7 @@ def get_embed(log: str, prev_log: str = "", test_log: str = "") -> Tuple[
         if latest_log == prev_log:
             return (latest_log, None)
 
-        if any(prefix in latest_log for prefix in utils.CONF_IGN_PREFIX):
+        if any(prefix in latest_log for prefix in utils.IGNORE_PREFIX):
             return (latest_log, None)
 
         # player joined
@@ -54,14 +54,14 @@ def get_embed(log: str, prev_log: str = "", test_log: str = "") -> Tuple[
             return (latest_log, embed_player_advancement(latest_log, adv))
 
         # server start/stop
-        if any(state in latest_log for state in utils.CONF_SERVER_STATES):
+        if any(state in latest_log for state in utils.SERVER_STATES):
             methods.log(strings.LOG_SERVER_STATE)
             return (latest_log, embed_server_state(latest_log))
 
         # matot
         is_death = utils.RE_DEAD.findall(latest_log)
         try:
-            if not any(trigger in is_death[0] for trigger in utils.CONF_NOT_DEATHS):
+            if not any(trigger in is_death[0] for trigger in utils.NOT_DEATHS):
                 return (latest_log, embed_player_death(is_death[0]))
         except IndexError:
             return (latest_log, None)

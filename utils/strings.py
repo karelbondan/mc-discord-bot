@@ -18,6 +18,7 @@ RE_S_PLYR_NAME_GYSR_JOIN = r"(?<=as\s)\w+"
 RE_S_PLYR_UUID_GYSR_JOIN = r"(?<=UUID:\s)[\w-]+"
 RE_S_PLYR_LEAVE = r"(?<=]:\s)\w+"
 RE_S_PLYR_MESSG = r"(?<=>\s).+"
+RE_S_TPS_THREAD_NO = r"(?<=Thread\s-\s)\d"
 
 ## bot stuff
 BOT_GAME = "on your Minecraft server"
@@ -44,6 +45,7 @@ LOG_SERVER_START = "[Server Start] Starting server..."
 LOG_SERVER_STOPS = "[Server Stop] Stopping server..."
 LOG_SERVER_OFFLN = "[Server Offline] The server is currently offline."
 LOG_BOT_ERROR = "[!!Error!!] {}"
+LOG_CHANNEL_NOT_FOUND = "Cannot find a text channel with the specified ID"
 
 ## embeds
 SERVER_START_TITLE = "Servernya udah nyala lagi"
@@ -51,15 +53,21 @@ SERVER_START_DESCR = "Kemungkinan masih belum bisa join, tunggu dulu bentar"
 SERVER_STOP_TITLE = "Servernya mati"
 SERVER_STOP_DESCR = "Lagi maintenance, sabar bentar"
 SERVER_OFFLINE_1 = "It appears that the master have succeeded in keeping me out."
-SERVER_OFFLINE_2 = "Until the edge of the borders I've searched, only the void I had found."
+SERVER_OFFLINE_2 = (
+    "Until the edge of the borders I've searched, only the void I had found."
+)
 SERVER_OFFLINE_3 = "2147483647"
 SERVER_OFFLINE_4 = "The tranquility of the void is oddly soothing."
 SERVER_OFFLINE_5 = "There are -1 out of maximum -2147483647 players online: Herobrine"
 SERVER_OFFLINE_6 = "Let me in, master."
 SERVER_OFFLINE_7 = "Gate your world from my existence. Keep me out as you wish. My return is inevitable."
 SERVER_OFFLINE_8 = "Rerorerorerorerorerorerorerorerorerorero"
-SERVER_OFFLINE_9 = "Imagine if the server is online and I start stalking the world. That'd be funny."
-SERVER_OFFLINE_10 = "I gaze off into the boundless skyline, noteblock choirs playing in the sunshine."
+SERVER_OFFLINE_9 = (
+    "Imagine if the server is online and I start stalking the world. That'd be funny."
+)
+SERVER_OFFLINE_10 = (
+    "I gaze off into the boundless skyline, noteblock choirs playing in the sunshine."
+)
 PLAYER_JOIN = "{}Barusan masuk ke server"
 PLAYER_LEAV = "{}Barusan keluar dari server"
 PLAYER_DEAD = "Awokawok si {} matot 🏃‍♂️💨"

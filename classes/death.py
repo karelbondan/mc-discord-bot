@@ -8,7 +8,7 @@ class Death(MCEmbedBuilderBase):
         super().__init__(name, icon_url)
         self.cause = cause
         self.embed.title = strings.PLAYER_DEAD.format(self.name)
-        self.embed.description = utils.CONF_EMOJI_END + self.cause
-        self.embed.color = utils.CONF_COLORS["orange"]
+        self.embed.description = utils.EMOJI_END + self.cause
+        self.embed.color = utils.COLORS["orange"]
         self.embed.set_thumbnail(url=self.icon_url)
         self.embed.set_footer(text=strings.PLAYER_FOOT.format(self.get_time()))
