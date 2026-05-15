@@ -23,7 +23,7 @@ def strip_codes_color(resp: str) -> str:
 def load_players():
     methods.log(strings.LOG_GETPLAYER)
     with open("{}/usercache.json".format(const.MC_PATH)) as server_players:
-        methods.log(const.ROOT_PATH)
+        methods.log(str(const.ROOT_PATH))
         with open("{}/players.json".format(const.ROOT_PATH), "w") as database:
             parsed = json.load(server_players)
             players_list = {}

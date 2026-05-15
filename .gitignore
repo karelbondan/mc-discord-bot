@@ -5,3 +5,4 @@ players.json
 **/*test
 *.egg-info
 build
+restore_config*

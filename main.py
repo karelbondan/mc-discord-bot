@@ -21,6 +21,7 @@ import utils.methods as methods
 import utils.strings as strings
 from classes.chat import Chat
 from classes.offline import Offline
+from minecraft.embeds import embed_player_chat_edit
 
 players_loaded = False
 # previous message properties
@@ -46,7 +47,10 @@ async def list(ctx: commands.Context):
 @bot.command()
 async def ping(ctx: commands.Context):
     def __ping():
-        server = JavaServer.lookup(f"{consts.MC_HOST}:{consts.MC_PORT}")
+        origin = f"{consts.MC_HOST}"
+        if consts.MC_PORT:
+            origin += f":{consts.MC_PORT}"
+        server = JavaServer.lookup(origin)
         return server.status().latency
 
     result = await bot.loop.run_in_executor(None, __ping)
@@ -94,7 +98,7 @@ async def mc_to_discord_worker():
                     and embed.get_name() == prev_chat.get_name()
                     and prev_sent
                 ):
-                    embed = worker.embed_player_chat_edit(prev_chat, embed)
+                    embed = embed_player_chat_edit(prev_chat, embed)
                     await prev_sent.edit(embed=embed.get_embed())
                 # else just send a regular embed to the discord server
                 else:
@@ -125,12 +129,8 @@ async def on_message(message: Message):
         methods.log(strings.LOG_ONMESSAGE.format(message.author))
         await message.channel.send(strings.RSP_STEVE)
 
-    # if not in the desired channel then do nothing
-    if consts.CHANNEL_NAME.lower() not in message.channel.name.lower():
-        return
-
-    # if last message was sent by the bot then ignore
-    if message.author == bot.user:
+    # if last message was sent by the bot or any other bot then ignore
+    if message.author == bot.user or message.author.bot:
         return
 
     # read all messages if all conditions were satisfied

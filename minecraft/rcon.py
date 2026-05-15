@@ -8,11 +8,7 @@ import re
 
 def send_command(command: str):
     print(consts.RCON_PASS, consts.RCON_PORT)
-    with MCRcon(
-        "0.0.0.0",
-        consts.RCON_PASS,
-        port=consts.RCON_PORT,
-    ) as mcr:
+    with MCRcon(consts.RCON_HOST, consts.RCON_PASS, port=consts.RCON_PORT) as mcr:
         response = mcr.command(command)
         response = methods.strip_codes_color(resp=response)
         methods.log(strings.LOG_RCONMCSCC.format(response))

@@ -4,6 +4,7 @@ from pathlib import Path
 
 import yaml
 from dotenv import load_dotenv
+from enum import Enum
 
 import utils.strings as strings
 
@@ -28,10 +29,11 @@ BOT_TOKEN: str = os.getenv("TOKEN") or ""
 BOT_PREFIX = CONFIG["bot"]["prefix"]
 
 MC_HOST = os.getenv("MC_HOST") or "0.0.0.0"
-MC_PORT = int(os.getenv("MC_PORT") or 25565)
+MC_PORT = os.getenv("MC_PORT")
 MC_PATH = CONFIG["minecraft"]["server_path"]
 
 RCON_PASS = os.getenv("RCON_PASS") or ""
+RCON_HOST = os.getenv("RCON_HOST") or "0.0.0.0"
 RCON_PORT = int(os.getenv("RCON_PORT") or 25575)
 
 TAB_AMOUNT: int = CONFIG["logging"]["tab_amount"]
@@ -39,6 +41,9 @@ LOG_READ_DELAY: float = CONFIG["logging"]["read_delay"]
 
 HEAD_URL: str = CONFIG["discord"]["embed"]["url_head"]
 BODY_URL: str = CONFIG["discord"]["embed"]["url_body"]
+BEDROCK_SKIN_DATA_URL: str = CONFIG["discord"]["embed"]["url_skin_data_bedrock"]
+BEDROCK_HEAD_URL: str = CONFIG["discord"]["embed"]["url_head_bedrock"]
+BEDROCK_BODY_URL: str = CONFIG["discord"]["embed"]["url_body_bedrock"]
 
 EMOJI_REPLY: str = CONFIG["discord"]["embed"]["emoji_reply"]
 EMOJI_END: str = CONFIG["discord"]["embed"]["emoji_end"]
@@ -50,7 +55,6 @@ SERVER_STATES: list[str] = CONFIG["miscellaneous"]["server_states"]
 IGNORE_PREFIX: list[str] = CONFIG["miscellaneous"]["ignore_prefixes"]
 
 CHANNEL_ID: int = CONFIG["discord"]["channel_id"]
-CHANNEL_NAME: str = CONFIG["discord"]["channel_name"]
 SERVER_ID: int = CONFIG["discord"]["server_id"]
 
 ## regexes
@@ -70,3 +74,13 @@ RE_PLYR_UUID_GYS_JOIN: re.Pattern = re.compile(strings.RE_S_PLYR_UUID_GYSR_JOIN)
 RE_PLYR_LEAVE: re.Pattern = re.compile(strings.RE_S_PLYR_LEAVE)
 RE_PLYR_MESSG: re.Pattern = re.compile(strings.RE_S_PLYR_MESSG)
 RE_TPS_THREAD_NO: re.Pattern = re.compile(strings.RE_S_TPS_THREAD_NO)
+
+
+class McClient(Enum):
+    JAVA = "Java"
+    BEDROCK = "Bedrock"
+
+
+class ConnectState(Enum):
+    JOIN = "Join"
+    LEAVE = "Leave"

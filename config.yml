@@ -7,19 +7,22 @@ settings:
   # Minecraft settings
   minecraft:
     # The directory on where server.jar is located
-    server_path: "/path/to/mc-server"
+    # server_path: "/path/to/mc-server"
+    server_path: "/home/karel/Projects/meinkraft-dev/minecraft-26.1-spigot-old-world"
 
   # Discord settings
   discord:
-    server_id: 12345
-    channel_id: 67890
-    # The channel name of the specified ID above. Not case-sensitive
-    channel_name: mc-world-bot
+    server_id: 619445774228652052
+    channel_id: 1296904571112914947
     # You might not want to change these unless you know what you're doing
     embed:
       # Player skins
       url_head: "https://minotar.net/helm/{}/32.png"
       url_body: "https://minotar.net/armor/body/{}/150.png"
+      # Bedrock skins
+      url_head_bedrock: "https://mc-heads.net/avatar/{}"
+      url_body_bedrock: "https://mc-heads.net/player/{}"
+      url_skin_data_bedrock: "https://api.geysermc.org/v2/skin/{}"
       # For nice-looking embeds
       emoji_reply: "<:tree:1297239384864718920>"
       emoji_end: "<:tree_end:1297239401751122001>"
@@ -64,3 +67,4 @@ settings:
       - "/msg"
       - "/tell"
       - "issued server command: /"
+      - "Server empty"

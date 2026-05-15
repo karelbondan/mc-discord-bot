@@ -1,33 +1,65 @@
-from typing import List
+import json
+from typing import List, Any
+
+import utils.constants as consts
+import utils.methods as methods
+import utils.strings as strings
 from classes.advancement import Advancement
 from classes.chat import Chat
 from classes.death import Death
 from classes.player import PlayerState
 from classes.state import ServerState
-import utils.constants as consts
-import utils.methods as methods
-import utils.strings as strings
-import json
+from utils.constants import McClient, ConnectState
+
+from curl_cffi import requests
 
 
 def embed_player_joined(log: str) -> PlayerState:
-    # bugrock
-    if "Floodgate" in log:
-        player_name = consts.RE_PLYR_NAME_GYS_JOIN.findall(log)[0]
-        player_uuid = consts.RE_PLYR_UUID_GYS_JOIN.findall(log)[0]
-    # java
-    else:
-        player_name = consts.RE_PLYR_NAME_JOIN.findall(log)[0]
-        player_uuid = consts.RE_PLYR_UUID_JOIN.findall(log)[0]
+    player_name = consts.RE_PLYR_NAME_JOIN.findall(log)[0]
+    # it'll be java uuid at this point
+    player_uuid: str = consts.RE_PLYR_UUID_JOIN.findall(log)[0]
 
-    player_body_icon = consts.BODY_URL.format(player_uuid)
+    # check if it's a floodgate uuid. the converted decimal will be 10^16
+    possible_xuid = str(int(player_uuid.replace("-", ""), 16))
+    if len(possible_xuid) == 16:
+        try:
+            # if player is using minecraft official skin it will return error
+            skin_data = requests.get(
+                consts.BEDROCK_SKIN_DATA_URL.format(possible_xuid),
+                impersonate="chrome146",
+            )
+            """
+            {
+                "hash": "",
+                "is_steve": true,
+                "last_update": ,
+                "signature": "",
+                "texture_id": "",
+                "value": ""
+            }
+            """
+            player_uuid = skin_data.json()["texture_id"]
+        except Exception:
+            pass
+        player_client = McClient.BEDROCK
+        player_body_icon = consts.BEDROCK_BODY_URL.format(player_uuid)
+        methods.log(f"{player_name} is a Bedrock player")
+    else:
+        player_client = McClient.JAVA
+        player_body_icon = consts.BODY_URL.format(player_uuid)
+        methods.log(f"{player_name} is a Java player")
+
     players_list = json.load(open("{}/players.json".format(consts.ROOT_PATH)))
     players_list[player_name] = player_uuid
     with open("{}/players.json".format(consts.ROOT_PATH), "w") as database:
         json.dump(players_list, database)
 
     methods.log(strings.LOG_PLAYRJOIN.format(player_name))
-    return PlayerState(player_name, player_body_icon, state="JOIN")
+    return PlayerState(player_name, player_body_icon, ConnectState.JOIN, player_client)
+
+
+def is_bedrock(player_uuid: str):
+    return len(player_uuid) == 16 or len(player_uuid) > 36
 
 
 def embed_player_leave(log: str) -> PlayerState:
@@ -37,22 +69,33 @@ def embed_player_leave(log: str) -> PlayerState:
 
     with open("{}/players.json".format(consts.ROOT_PATH), "r") as database:
         players_list = json.load(database)
-        player_uuid = players_list[player_name]
+    player_uuid = players_list[player_name]
+
+    if is_bedrock(player_uuid):
+        player_client = McClient.BEDROCK
+        player_body_icon = consts.BEDROCK_BODY_URL.format(player_uuid)
+    else:
+        player_client = McClient.JAVA
         player_body_icon = consts.BODY_URL.format(player_uuid)
-        return PlayerState(player_name, player_body_icon, state="LEAVE")
+
+    return PlayerState(player_name, player_body_icon, ConnectState.LEAVE, player_client)
 
 
-def embed_player_chat(latest: str, message: str) -> Chat:
-    player_list = open("{}/players.json".format(consts.ROOT_PATH))
-    player_list_parsed = json.load(player_list)
-    player_name = message[0]
-    # finds character sequences with spaces after the sequence ">\s"
-    player_chat = consts.RE_PLYR_MESSG.findall(latest)[0]
-    player_icon = consts.HEAD_URL.format(player_list_parsed[player_name])
-    player_list.close()
+def embed_player_chat(latest: str, message: List[Any]) -> Chat:
+    with open("{}/players.json".format(consts.ROOT_PATH)) as player_list:
+        player_list_parsed = json.load(player_list)
+        player_name = message[0]
+        # finds character sequences with spaces after the sequence ">\s"
+        player_chat = consts.RE_PLYR_MESSG.findall(latest)[0]
+        player_uuid = player_list_parsed[player_name]
 
-    methods.log(strings.LOG_PLAYRCHAT.format(player_name, player_chat))
-    return Chat(player_name, player_icon, player_chat)
+        if is_bedrock(player_uuid):
+            player_icon = consts.BEDROCK_HEAD_URL.format(player_uuid)
+        else:
+            player_icon = consts.HEAD_URL.format(player_uuid)
+
+        methods.log(strings.LOG_PLAYRCHAT.format(player_name, player_chat))
+        return Chat(player_name, player_icon, player_chat)
 
 
 def embed_player_chat_edit(prev: Chat, new: Chat) -> Chat:

@@ -1,18 +1,21 @@
-from typing import Union, Tuple
+from traceback import format_exc
+from typing import Tuple, Union
+
+import utils.constants as utils
+import utils.methods as methods
+import utils.strings as strings
 from classes.advancement import Advancement
 from classes.builder import MCEmbedBuilderBase
 from classes.chat import Chat
 from classes.death import Death
 from classes.player import PlayerState
 from classes.state import ServerState
-from minecraft.embeds import *
-from traceback import format_exc
-import utils.constants as utils
-import utils.methods as methods
-import utils.strings as strings
+import minecraft.embeds as embeds
 
 
-def get_embed(log: str, prev_log: str = "", test_log: str = "") -> Tuple[
+def get_embed(
+    log: str, prev_log: str = "", test_log: str = ""
+) -> Tuple[
     str,
     Union[MCEmbedBuilderBase, Chat, PlayerState, Death, Advancement, ServerState, None],
 ]:
@@ -31,19 +34,19 @@ def get_embed(log: str, prev_log: str = "", test_log: str = "") -> Tuple[
             return (latest_log, None)
 
         # player joined
-        if "UUID" in latest_log:
-            return (latest_log, embed_player_joined(latest_log))
+        if "User Authenticator" in latest_log:
+            return (latest_log, embeds.embed_player_joined(latest_log))
 
         # player left
         if "lost connection" in latest_log:
-            return (latest_log, embed_player_leave(latest_log))
+            return (latest_log, embeds.embed_player_leave(latest_log))
 
         # player chat
         # finds character sequences after < and before >; gets the player name
         # is_chat = re.findall(r"(?<=<)\w+(?=>)", latest_log)
         is_chat = utils.RE_CHAT.findall(latest_log)
         if is_chat:
-            return (latest_log, embed_player_chat(latest_log, is_chat))
+            return (latest_log, embeds.embed_player_chat(latest_log, is_chat))
 
         # advancement or challenge or goal
         is_advancement = utils.RE_ADVANCEMENT.findall(latest_log)
@@ -51,24 +54,24 @@ def get_embed(log: str, prev_log: str = "", test_log: str = "") -> Tuple[
         is_goal = utils.RE_GOAL.findall(latest_log)
         if is_advancement or is_challenge or is_goal:
             adv = is_advancement or is_challenge or is_goal
-            return (latest_log, embed_player_advancement(latest_log, adv))
+            return (latest_log, embeds.embed_player_advancement(latest_log, adv))
 
         # server start/stop
         if any(state in latest_log for state in utils.SERVER_STATES):
             methods.log(strings.LOG_SERVER_STATE)
-            return (latest_log, embed_server_state(latest_log))
+            return (latest_log, embeds.embed_server_state(latest_log))
 
         # matot
         is_death = utils.RE_DEAD.findall(latest_log)
         try:
             if not any(trigger in is_death[0] for trigger in utils.NOT_DEATHS):
-                return (latest_log, embed_player_death(is_death[0]))
+                return (latest_log, embeds.embed_player_death(is_death[0]))
         except IndexError:
             return (latest_log, None)
 
         # if none of the above statements were satisfied
         return (latest_log, None)
-    except Exception as e:
+    except Exception:
         methods.log(strings.LOG_BOT_ERROR.format(format_exc()))
 
         # return nothing if an error was encountered
