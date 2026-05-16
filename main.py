@@ -132,6 +132,10 @@ async def on_message(message: Message):
     # if last message was sent by the bot or any other bot then ignore
     if message.author == bot.user or message.author.bot:
         return
+    
+    # if last message not in designated channel then ignore
+    if message.channel.id != consts.CHANNEL_ID:
+        return
 
     # read all messages if all conditions were satisfied
     methods.log(strings.LOG_RCON_DCMC.format(message.author))
