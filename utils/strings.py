@@ -44,6 +44,7 @@ LOG_SERVER_STATE = "[Server State: Start/Stop] Server state embed format trigger
 LOG_SERVER_START = "[Server Start] Starting server..."
 LOG_SERVER_STOPS = "[Server Stop] Stopping server..."
 LOG_SERVER_OFFLN = "[Server Offline] The server is currently offline."
+LOG_SERVER_RESTART = "[Server Restart] Restarting server..."
 LOG_BOT_ERROR = "[!!Error!!] {}"
 LOG_CHANNEL_NOT_FOUND = "Cannot find a text channel with the specified ID"
 
@@ -52,6 +53,8 @@ SERVER_START_TITLE = "Servernya udah nyala lagi"
 SERVER_START_DESCR = "Kemungkinan masih belum bisa join, tunggu dulu bentar"
 SERVER_STOP_TITLE = "Servernya mati"
 SERVER_STOP_DESCR = "Lagi maintenance, sabar bentar"
+SERVER_RESTART_TITLE = "Bentar nak restart dulu"
+SERVER_RESTART_DESCR = "Biar ga ngecrash pas tengah main. Bentar yak hehe harusnya cepet kok"
 SERVER_OFFLINE_1 = "It appears that the master have succeeded in keeping me out."
 SERVER_OFFLINE_2 = (
     "Until the edge of the borders I've searched, only the void I had found."

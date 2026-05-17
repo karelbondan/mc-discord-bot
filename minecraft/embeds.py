@@ -151,6 +151,9 @@ def embed_server_state(latest_chat: str) -> ServerState:
     if "Starting" in latest_chat:
         state = ServerStateEnum.STARTING
         methods.log(strings.LOG_SERVER_START)
+    elif "auto-restart-initiated" in latest_chat:
+        state = ServerStateEnum.RESTARTING
+        methods.log(strings.LOG_SERVER_RESTART)
     else:
         state = ServerStateEnum.STOPPING
         methods.log(strings.LOG_SERVER_STOPS)

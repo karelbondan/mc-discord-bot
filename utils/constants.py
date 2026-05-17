@@ -15,14 +15,32 @@ with open("config.yml", "r") as config:
     CONFIG = yaml.safe_load(config)
     CONFIG = CONFIG["settings"]
 
+
 ## configs
-COLORS = {
-    "green": 0x36E066,
-    "red": 0xE04536,
-    "gray": 0xBEBEBE,
-    "orange": 0xFF9100,
-    "gold": 0xFFDE00,
-}
+class PlayerClient(Enum):
+    JAVA = "Java"
+    BEDROCK = "Bedrock"
+
+
+class PlayerStateEnum(Enum):
+    JOIN = "Join"
+    LEAVE = "Leave"
+
+
+class ServerStateEnum(Enum):
+    STARTING = "Starting"
+    RESTARTING = "Restarting"
+    STOPPING = "Stopping"
+
+
+class Colors(Enum):
+    GREEN = 0x36E066
+    RED = 0xE04536
+    GRAY = 0xBEBEBE
+    ORANGE = 0xFF9100
+    GOLD = 0xFFDE00
+
+
 ROOT_PATH = Path(__file__).parent.parent
 
 BOT_TOKEN: str = os.getenv("TOKEN") or ""
@@ -74,18 +92,3 @@ RE_PLYR_UUID_GYS_JOIN: re.Pattern = re.compile(strings.RE_S_PLYR_UUID_GYSR_JOIN)
 RE_PLYR_LEAVE: re.Pattern = re.compile(strings.RE_S_PLYR_LEAVE)
 RE_PLYR_MESSG: re.Pattern = re.compile(strings.RE_S_PLYR_MESSG)
 RE_TPS_THREAD_NO: re.Pattern = re.compile(strings.RE_S_TPS_THREAD_NO)
-
-
-class PlayerClient(Enum):
-    JAVA = "Java"
-    BEDROCK = "Bedrock"
-
-
-class PlayerStateEnum(Enum):
-    JOIN = "Join"
-    LEAVE = "Leave"
-
-
-class ServerStateEnum(Enum):
-    STARTING = "Starting"
-    STOPPING = "Stopping"

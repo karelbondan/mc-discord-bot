@@ -14,11 +14,15 @@ class ServerState(MCEmbedBuilderBase):
         if server_state == ServerStateEnum.STARTING:
             title = strings.SERVER_START_TITLE
             desc = strings.SERVER_START_DESCR
-            color = utils.COLORS["green"]
+            color = utils.Colors.GREEN.value
+        elif server_state == ServerStateEnum.RESTARTING:
+            title = strings.SERVER_RESTART_TITLE
+            desc = strings.SERVER_RESTART_DESCR
+            color = utils.Colors.ORANGE.value
         else:
             title = strings.SERVER_STOP_TITLE
             desc = strings.SERVER_STOP_DESCR
-            color = utils.COLORS["red"]
+            color = utils.Colors.RED.value
         self.embed.title = title
         self.embed.description = desc
         self.embed.color = color

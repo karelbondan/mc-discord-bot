@@ -12,7 +12,7 @@ class Chat(MCEmbedBuilderBase):
             icon_url=self.icon_url,
         )
         self.embed.description = utils.EMOJI_END + msg
-        self.embed.color = utils.COLORS["gray"]
+        self.embed.color = utils.Colors.GRAY.value
 
     def add_description(self, msg: str) -> None:
         self.description.append(msg)

@@ -68,3 +68,4 @@ settings:
       - "/tell"
       - "issued server command: /"
       - "Server empty"
+      - auto-restart-initiated

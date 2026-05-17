@@ -12,6 +12,6 @@ class Advancement(MCEmbedBuilderBase):
         self.embed.description = strings.PLAYER_ACHV_DESCR.format(
             self.advancement, self.adv_name
         )
-        self.embed.color = utils.COLORS["gold"]
+        self.embed.color = utils.Colors.GOLD.value
         self.embed.set_thumbnail(url=self.icon_url)
         self.embed.set_footer(text=strings.PLAYER_FOOT.format(self.get_time()))

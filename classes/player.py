@@ -22,11 +22,11 @@ class PlayerState(MCEmbedBuilderBase):
         if state == PlayerStateEnum.JOIN:
             title = f"{self.name} {utils.EMOJI_JOIN}"
             description = strings.PLAYER_JOIN.format(utils.EMOJI_END)
-            color = utils.COLORS["green"]
+            color = utils.Colors.GREEN.value
         else:
             title = f"{self.name} {utils.EMOJI_LEAVE}"
             description = strings.PLAYER_LEAV.format(utils.EMOJI_END)
-            color = utils.COLORS["red"]
+            color = utils.Colors.RED.value
         self.embed.title = title
         self.embed.description = description
         self.embed.color = color
