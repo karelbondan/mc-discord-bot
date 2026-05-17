@@ -75,7 +75,7 @@ def embed_player_joined(log: str) -> PlayerState:
         db[player_name] = [player_uuid]
         players_list.seek(0)
         players_list.truncate(0)
-        json.dump(players_list, db, indent=4)
+        json.dump(db, players_list, indent=4)
 
     methods.log(strings.LOG_PLAYRJOIN.format(player_name))
     return PlayerState(player_name, player_body_icon, ConnectState.JOIN, player_client)
