@@ -72,7 +72,7 @@ def embed_player_joined(log: str) -> PlayerState:
 
     with open("{}/players.json".format(consts.ROOT_PATH), "r+") as players_list:
         db = json.load(players_list)
-        db[player_name] = [player_uuid]
+        db[player_name] = player_uuid
         players_list.seek(0)
         players_list.truncate(0)
         json.dump(db, players_list, indent=4)
