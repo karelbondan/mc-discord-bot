@@ -54,7 +54,7 @@ async def ping(ctx: commands.Context):
         return server.status().latency
 
     result = await bot.loop.run_in_executor(None, __ping)
-    await ctx.send(str(round(result, 2)))
+    await ctx.send(f"{round(result, 2)}ms")
 
 
 @bot.command()
@@ -73,7 +73,7 @@ async def mc_to_discord_worker():
     while True:
         try:
             if not players_loaded:
-                methods.load_players()
+                methods.initialize_player_cache()
                 players_loaded = True
 
             channel = bot.get_channel(consts.CHANNEL_ID)
@@ -84,6 +84,7 @@ async def mc_to_discord_worker():
             logs = Pygtail(filename=log_path, save_on_end=True)
             if not logs:
                 continue
+            
             for log in logs:
                 log = methods.strip_codes_ansiesc(log=str(log))
                 prev_log, embed = worker.get_embed(prev_log=prev_log, log=log)

@@ -1,7 +1,8 @@
 import utils.constants as utils
 import utils.strings as strings
 from classes.builder import MCEmbedBuilderBase
-from utils.constants import McClient, ConnectState
+from utils.constants import PlayerClient
+from utils.constants import PlayerStateEnum
 
 
 class PlayerState(MCEmbedBuilderBase):
@@ -9,16 +10,16 @@ class PlayerState(MCEmbedBuilderBase):
         self,
         name: str,
         icon_url: str,
-        state: ConnectState,
-        client: McClient,
+        state: PlayerStateEnum,
+        client: PlayerClient,
     ):
         super().__init__(name, icon_url)
         self.state = state
         self.client = client
         self.format_embed(state=self.state)
 
-    def format_embed(self, state: ConnectState):
-        if state == ConnectState.JOIN:
+    def format_embed(self, state: PlayerStateEnum):
+        if state == PlayerStateEnum.JOIN:
             title = f"{self.name} {utils.EMOJI_JOIN}"
             description = strings.PLAYER_JOIN.format(utils.EMOJI_END)
             color = utils.COLORS["green"]

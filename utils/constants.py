@@ -76,11 +76,16 @@ RE_PLYR_MESSG: re.Pattern = re.compile(strings.RE_S_PLYR_MESSG)
 RE_TPS_THREAD_NO: re.Pattern = re.compile(strings.RE_S_TPS_THREAD_NO)
 
 
-class McClient(Enum):
+class PlayerClient(Enum):
     JAVA = "Java"
     BEDROCK = "Bedrock"
 
 
-class ConnectState(Enum):
+class PlayerStateEnum(Enum):
     JOIN = "Join"
     LEAVE = "Leave"
+
+
+class ServerStateEnum(Enum):
+    STARTING = "Starting"
+    STOPPING = "Stopping"

@@ -1,16 +1,17 @@
-from classes.builder import MCEmbedBuilderBase
 import utils.constants as utils
 import utils.strings as strings
+from classes.builder import MCEmbedBuilderBase
+from utils.constants import ServerStateEnum
 
 
 class ServerState(MCEmbedBuilderBase):
-    def __init__(self, state: str, name: str = "", icon_url: str = ""):
+    def __init__(self, state: ServerStateEnum, name: str = "", icon_url: str = ""):
         super().__init__(name, icon_url)
         self.server_state = state
         self.format_embed(server_state=self.server_state)
 
-    def format_embed(self, server_state: str):
-        if server_state == "STARTING":
+    def format_embed(self, server_state: ServerStateEnum):
+        if server_state == ServerStateEnum.STARTING:
             title = strings.SERVER_START_TITLE
             desc = strings.SERVER_START_DESCR
             color = utils.COLORS["green"]

@@ -1,11 +1,10 @@
-from time import strftime
-from typing import Dict
-from random import randint
-import json
 import re
+from random import randint
+from time import strftime
+
+import utils.constants as const
 import utils.methods as methods
 import utils.strings as strings
-import utils.constants as const
 
 
 def log(log: str):
@@ -20,25 +19,14 @@ def strip_codes_color(resp: str) -> str:
     return re.sub(strings.RE_S_CMD_COLR, "", resp)
 
 
-def load_players():
+def initialize_player_cache():
     methods.log(strings.LOG_GETPLAYER)
-    with open("{}/usercache.json".format(const.MC_PATH)) as server_players:
-        methods.log(str(const.ROOT_PATH))
-        with open("{}/players.json".format(const.ROOT_PATH), "w") as database:
-            parsed = json.load(server_players)
-            players_list = {}
 
-            for player in parsed:
-                if player["name"] not in players_list:
-                    players_list[player["name"]] = player["uuid"]
+    # initialize player uuid cache on first run
+    with open("{}/players.json".format(const.ROOT_PATH), "a"):
+        pass
 
-            json.dump(players_list, database)
     methods.log(strings.LOG_GETPLRSCC)
-
-
-def load_config() -> Dict[str, str]:
-    with open("config.json") as config:
-        return json.load(config)
 
 
 def offline_msg() -> str:
