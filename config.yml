@@ -32,11 +32,11 @@ settings:
   logging:
     # Tab amount to be displayed in stdout between the log type and the log content
     tab_amount: 5
-    # Throttling for pygtail to read from latest.log 
+    # Throttling for pygtail to read from latest.log
     read_delay: 0.1
 
-  # These are necessary for the bot to run properly. Unless you know what you're doing or 
-  # you want to experiment, you should not change these. 
+  # These are necessary for the bot to run properly. Unless you know what you're doing or
+  # you want to experiment, you should not change these.
   miscellaneous:
     not_deaths:
       - Thread
@@ -62,10 +62,10 @@ settings:
     server_states:
       - Starting minecraft server
       - Stopping server
+      - auto-restart-initiated
     ignore_prefixes:
       - "/w"
       - "/msg"
       - "/tell"
       - "issued server command: /"
       - "Server empty"
-      - auto-restart-initiated
