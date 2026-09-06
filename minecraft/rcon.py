@@ -1,13 +1,13 @@
-from mcrcon import MCRcon
-from discord import Message
-import utils.constants as consts
-import utils.strings as strings
-import utils.methods as methods
 import re
+
+from discord import Message
+from mcrcon import MCRcon
+
+import utils.constants as consts
+from utils import methods, strings
 
 
 def send_command(command: str):
-    print(consts.RCON_PASS, consts.RCON_PORT)
     with MCRcon(consts.RCON_HOST, consts.RCON_PASS, port=consts.RCON_PORT) as mcr:
         response = mcr.command(command)
         response = methods.strip_codes_color(resp=response)

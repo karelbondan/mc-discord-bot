@@ -1,12 +1,14 @@
 # strings
 ## regex strings
-RE_S_ADV = r"\[Server\sthread/INFO\]\:\s[^\s]*\shas\smade\sthe\sadvancement"
+# RE_S_ADV = r"\[Server\sthread/INFO\]\:\s[^\s]*\shas\smade\sthe\sadvancement"
+RE_S_ADV = r"\[[\d\:]+(\sINFO)?\]\s\[Server thread(\/INFO)?\]\:\s(\[\w+\]\s)?(.+)(\shas\s(made|completed|reached)\sthe\s(advancement|challenge|goal)\s)\[(.+)\]"
 RE_S_ADV_MSGE = r"(?<=\[Server\sthread/INFO\]\:\s)[^\[]*"
 RE_S_ADV_NAME = r"(?<=\[)[^\]]*"
 RE_S_ADV_PLYR = r"(?<=\[Server\sthread/INFO\]\:\s)[^\s]*"
 RE_S_CHAL = r"\[Server\sthread/INFO\]\:\s[^\s]*\shas\scompleted\sthe\schallenge"
 RE_S_GOAL = r"\[Server\sthread/INFO\]\:\s[^\s]*\shas\sreached\sthe\sgoal"
-RE_S_DEATH = r"(?<=\[Server\sthread/INFO\]\:\s)[^\[\:\.]+$"
+# RE_S_DEATH = r"(?<=\[Server\sthread/INFO\]\:\s)[^\[\:\.]+$"
+RE_S_DEATH = r"\[[\d\:]+(\sINFO)?\]\s\[Server thread(\/INFO)?\]\:\s(\[MinecraftServer\]\s)?([\w\s]+)"
 RE_S_CHAT = r"(?<=<)\w+(?=>)"
 RE_S_CMD_LIST = r"\[HIDDEN\]"
 RE_S_CMD_CHAT = r"\x1b\[[0-9;]*m"  # removes break char for console
@@ -16,7 +18,7 @@ RE_S_PLYR_UUID_JOIN = r"(?<=is\s)[\w-]+"
 RE_S_PLYR_NAME_DEAD = r"^[^\s]*"
 RE_S_PLYR_NAME_GYSR_JOIN = r"(?<=as\s)\w+"
 RE_S_PLYR_UUID_GYSR_JOIN = r"(?<=UUID:\s)[\w-]+"
-RE_S_PLYR_LEAVE = r"(?<=]:\s)\w+"
+RE_S_PLYR_LEAVE = r"\s\w+(?=\slost)"
 RE_S_PLYR_MESSG = r"(?<=>\s).+"
 RE_S_TPS_THREAD_NO = r"(?<=Thread\s-\s)\d"
 
@@ -50,11 +52,13 @@ LOG_CHANNEL_NOT_FOUND = "Cannot find a text channel with the specified ID"
 
 ## embeds
 SERVER_START_TITLE = "Servernya udah nyala lagi"
-SERVER_START_DESCR = "Kemungkinan masih belum bisa join, tunggu dulu bentar"
+SERVER_START_DESCR = "Kemungkinan masih belum bisa join"
 SERVER_STOP_TITLE = "Servernya mati"
-SERVER_STOP_DESCR = "Lagi maintenance, sabar bentar"
+SERVER_STOP_DESCR = "Lagi maintenance"
 SERVER_RESTART_TITLE = "Bentar nak restart dulu"
-SERVER_RESTART_DESCR = "Biar ga ngecrash pas tengah main. Bentar yak hehe harusnya cepet kok"
+SERVER_RESTART_DESCR = (
+    "Biar ga ngecrash pas tengah main. Bentar yak hehe harusnya cepet kok"
+)
 SERVER_OFFLINE_1 = "It appears that the master have succeeded in keeping me out."
 SERVER_OFFLINE_2 = (
     "Until the edge of the borders I've searched, only the void I had found."

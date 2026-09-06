@@ -1,6 +1,6 @@
-from classes.builder import MCEmbedBuilderBase
 import utils.constants as utils
-import utils.strings as strings
+from classes.builder import MCEmbedBuilderBase
+from utils import strings
 
 
 class Chat(MCEmbedBuilderBase):

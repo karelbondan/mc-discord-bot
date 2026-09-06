@@ -1,12 +1,12 @@
 import os
 import re
+from enum import Enum
 from pathlib import Path
 
 import yaml
 from dotenv import load_dotenv
-from enum import Enum
 
-import utils.strings as strings
+from utils import strings
 
 load_dotenv(override=True)
 

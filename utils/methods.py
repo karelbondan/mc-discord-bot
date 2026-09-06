@@ -1,10 +1,11 @@
+# import os
 import re
+from os import path
 from random import randint
 from time import strftime
 
 import utils.constants as const
-import utils.methods as methods
-import utils.strings as strings
+from utils import strings
 
 
 def log(log: str):
@@ -20,13 +21,15 @@ def strip_codes_color(resp: str) -> str:
 
 
 def initialize_player_cache():
-    methods.log(strings.LOG_GETPLAYER)
+    log(strings.LOG_GETPLAYER)
 
     # initialize player uuid cache on first run
-    with open("{}/players.json".format(const.ROOT_PATH), "a"):
-        pass
+    cache_path = f"{const.ROOT_PATH}/players.json"
+    if not path.isfile(cache_path):
+        with open(cache_path, "a") as cache:
+            cache.write("{}")
 
-    methods.log(strings.LOG_GETPLRSCC)
+    log(strings.LOG_GETPLRSCC)
 
 
 def offline_msg() -> str:

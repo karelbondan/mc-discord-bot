@@ -8,12 +8,12 @@ settings:
   minecraft:
     # The directory on where server.jar is located
     # server_path: "/path/to/mc-server"
-    server_path: "/home/karel/Projects/meinkraft-dev/minecraft-26.1-spigot-old-world"
+    server_path: "/server/path"
 
   # Discord settings
   discord:
-    server_id: 619445774228652052
-    channel_id: 1296904571112914947
+    server_id: 123
+    channel_id: 456
     # You might not want to change these unless you know what you're doing
     embed:
       # Player skins

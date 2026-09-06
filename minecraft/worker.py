@@ -1,23 +1,21 @@
 from traceback import format_exc
-from typing import Tuple, Union
 
 import utils.constants as utils
-import utils.methods as methods
-import utils.strings as strings
 from classes.advancement import Advancement
 from classes.builder import MCEmbedBuilderBase
 from classes.chat import Chat
 from classes.death import Death
 from classes.player import PlayerState
 from classes.state import ServerState
-import minecraft.embeds as embeds
+from minecraft import embeds
+from utils import methods, strings
 
 
 def get_embed(
     log: str, prev_log: str = "", test_log: str = ""
-) -> Tuple[
+) -> tuple[
     str,
-    Union[MCEmbedBuilderBase, Chat, PlayerState, Death, Advancement, ServerState, None],
+    MCEmbedBuilderBase | Chat | PlayerState | Death | Advancement | ServerState | None,
 ]:
     try:
         # get last line
@@ -34,7 +32,7 @@ def get_embed(
             return (latest_log, None)
 
         # player joined
-        if "User Authenticator" in latest_log:
+        if "UUID" in latest_log:
             return (latest_log, embeds.embed_player_joined(latest_log))
 
         # player left
@@ -50,11 +48,8 @@ def get_embed(
 
         # advancement or challenge or goal
         is_advancement = utils.RE_ADVANCEMENT.findall(latest_log)
-        is_challenge = utils.RE_CHALLENGE.findall(latest_log)
-        is_goal = utils.RE_GOAL.findall(latest_log)
-        if is_advancement or is_challenge or is_goal:
-            adv = is_advancement or is_challenge or is_goal
-            return (latest_log, embeds.embed_player_advancement(latest_log, adv))
+        if is_advancement:
+            return (latest_log, embeds.embed_player_advancement(is_advancement))
 
         # server start/stop
         if any(state in latest_log for state in utils.SERVER_STATES):
@@ -64,14 +59,15 @@ def get_embed(
         # matot
         is_death = utils.RE_DEAD.findall(latest_log)
         try:
-            if not any(trigger in is_death[0] for trigger in utils.NOT_DEATHS):
-                return (latest_log, embeds.embed_player_death(is_death[0]))
-        except IndexError:
+            is_death = is_death[0][-1]
+            if not any(trigger in is_death for trigger in utils.NOT_DEATHS):
+                return (latest_log, embeds.embed_player_death(is_death))
+        except IndexError, KeyError:
             return (latest_log, None)
 
         # if none of the above statements were satisfied
         return (latest_log, None)
-    except Exception:
+    except Exception:  # noqa
         methods.log(strings.LOG_BOT_ERROR.format(format_exc()))
 
         # return nothing if an error was encountered

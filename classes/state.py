@@ -1,6 +1,6 @@
 import utils.constants as utils
-import utils.strings as strings
 from classes.builder import MCEmbedBuilderBase
+from utils import strings
 from utils.constants import ServerStateEnum
 
 

@@ -1,8 +1,7 @@
 import utils.constants as utils
-import utils.strings as strings
 from classes.builder import MCEmbedBuilderBase
-from utils.constants import PlayerClient
-from utils.constants import PlayerStateEnum
+from utils import strings
+from utils.constants import PlayerClient, PlayerStateEnum
 
 
 class PlayerState(MCEmbedBuilderBase):
